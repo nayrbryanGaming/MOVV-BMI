@@ -1,0 +1,14 @@
+# Flutter Launcher Icons Configuration
+# Generate icons using: flutter pub run flutter_launcher_icons
+
+android: true
+ios: true
+image_path: "assets/images/logo.png"
+min_sdk_android: 21
+
+adaptive_icon_background: "#0B0F14"
+adaptive_icon_foreground: "assets/images/logo.png"
+
+# Remove default Flutter icon
+remove_alpha_ios: true
+
