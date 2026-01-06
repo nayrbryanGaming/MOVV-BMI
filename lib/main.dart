@@ -148,7 +148,48 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
     return berat >= 1 && berat <= 300 && tinggi >= 50 && tinggi <= 250;
   }
 
-  // --- NEW: Target BMI helper: average ideal weight for 'Normal' range
+  // --- NEW: Sub-label for Normal category (educational, not WHO standard)
+  String subLabelNormal(double bmi) {
+    if (bmi < 18.5 || bmi >= 25.0) return '';
+    if (bmi >= 18.5 && bmi < 21.0) return 'Bawah';
+    if (bmi >= 21.0 && bmi < 24.0) return 'Tengah';
+    if (bmi >= 24.0 && bmi < 25.0) return 'Atas';
+    return '';
+  }
+
+  // --- NEW: Tips for each category (3 points, no emoji)
+  List<String> tipsForKategori(String kat) {
+    switch (kat) {
+      case 'Kurus':
+        return [
+          'Tingkatkan asupan kalori dengan makanan bergizi.',
+          'Konsumsi protein cukup untuk membangun massa otot.',
+          'Konsultasi ahli gizi jika kesulitan menaikkan berat.',
+        ];
+      case 'Normal':
+        return [
+          'Pertahankan pola makan seimbang.',
+          'Rutin berolahraga minimal 150 menit per minggu.',
+          'Cek BMI secara berkala untuk monitoring.',
+        ];
+      case 'Overweight':
+        return [
+          'Kurangi konsumsi makanan tinggi gula dan lemak jenuh.',
+          'Tingkatkan aktivitas fisik secara bertahap.',
+          'Konsultasi tenaga kesehatan untuk program yang tepat.',
+        ];
+      case 'Obesitas':
+        return [
+          'Segera konsultasi dokter atau ahli gizi.',
+          'Hindari diet ekstrem tanpa pengawasan medis.',
+          'Mulai aktivitas fisik ringan secara rutin.',
+        ];
+      default:
+        return [];
+    }
+  }
+
+  // --- Target BMI helper: average ideal weight for 'Normal' range
   double beratIdealAvg(double tinggiCm) {
     final h = tinggiCm / 100.0;
     final minW = 18.5 * h * h;
@@ -156,23 +197,23 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
     return double.parse(((minW + maxW) / 2).toStringAsFixed(1));
   }
 
-  // --- NEW: Smart status message based on category
+  // --- Smart status message based on category (no emoji)
   String statusForKategori(String kat) {
     switch (kat) {
       case 'Normal':
-        return 'Kondisi kamu aman 👍 pertahankan';
+        return 'Kondisi kamu aman, pertahankan.';
       case 'Kurus':
-        return 'Perlu asupan tambahan ⚠️';
+        return 'Perlu asupan tambahan.';
       case 'Overweight':
-        return 'Perlu kontrol pola makan';
+        return 'Perlu kontrol pola makan.';
       case 'Obesitas':
-        return 'Disarankan konsultasi tenaga kesehatan';
+        return 'Disarankan konsultasi tenaga kesehatan.';
       default:
         return '';
     }
   }
 
-  // --- NEW: Copy result to clipboard
+  // --- Copy result to clipboard
   void _copyResult() {
     final b = bmi?.toStringAsFixed(1) ?? '--';
     final beratText = beratCtrl.text.trim().isEmpty ? '-' : beratCtrl.text.trim();
@@ -182,23 +223,23 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
     _showSnack('Hasil disalin ke clipboard.');
   }
 
-  // --- NEW: Actionable recommendation based on category
+  // --- Actionable recommendation based on category (no emoji)
   String rekomendasiAksi(String kat) {
     switch (kat) {
       case 'Kurus':
-        return '💡 Fokus naik berat 3–5 kg dengan asupan seimbang';
+        return 'Fokus naik berat 3-5 kg dengan asupan seimbang.';
       case 'Normal':
-        return '✅ Pertahankan kondisi dengan gaya hidup sehat';
+        return 'Pertahankan kondisi dengan gaya hidup sehat.';
       case 'Overweight':
-        return '⚖️ Disarankan defisit kalori ringan & olahraga teratur';
+        return 'Disarankan defisit kalori ringan dan olahraga teratur.';
       case 'Obesitas':
-        return '🏃 Konsultasi tenaga kesehatan untuk program penurunan berat';
+        return 'Konsultasi tenaga kesehatan untuk program penurunan berat.';
       default:
         return '';
     }
   }
 
-  // --- NEW: Explainable result (XAI sederhana)
+  // --- Explainable result (XAI sederhana)
   String explainBMI() {
     if (bmi == null) return '';
     final tinggiVal = double.tryParse(tinggiCtrl.text.trim().replaceAll(',', '.')) ?? 0;
@@ -206,20 +247,20 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
     return 'BMI dihitung dari perbandingan berat terhadap kuadrat tinggi. Dengan tinggi ${tinggiVal.toStringAsFixed(0)} cm dan berat ${beratVal.toStringAsFixed(0)} kg, rasio ini (${bmi!.toStringAsFixed(1)}) masuk kategori $kategori menurut standar WHO.';
   }
 
-  // --- NEW: Goal-based reverse calculator (target BMI → berat ideal)
+  // --- Goal-based reverse calculator (target BMI → berat ideal)
   String beratUntukTargetBMI(double targetBmi, double tinggiCm) {
     final h = tinggiCm / 100.0;
     final w = targetBmi * h * h;
     return w.toStringAsFixed(1);
   }
 
-  // --- NEW: Trend indicator
+  // --- Trend indicator
   String trendIndicator() {
     if (_previousBmi == null || bmi == null) return '';
     final diff = bmi! - _previousBmi!;
-    if (diff.abs() < 0.1) return '→ Stabil';
-    if (diff > 0) return '↑ Naik ${diff.toStringAsFixed(1)}';
-    return '↓ Turun ${diff.abs().toStringAsFixed(1)}';
+    if (diff.abs() < 0.1) return 'Stabil';
+    if (diff > 0) return 'Naik ${diff.toStringAsFixed(1)}';
+    return 'Turun ${diff.abs().toStringAsFixed(1)}';
   }
 
   // Cache computed values to avoid recalculation in build
@@ -247,7 +288,7 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
       final b = double.tryParse(rawBerat);
       final t = double.tryParse(rawTinggi);
       if (b == null || t == null) {
-        _showSnack('Masukkan berat (1–300) dan tinggi (50–250) yang valid.');
+        _showSnack('Masukkan berat (1-300) dan tinggi (50-250) yang valid.');
         return;
       }
       berat = b; tinggi = t;
@@ -255,10 +296,10 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
 
     if (!inputValid(berat, tinggi)) {
       String msg = '';
-      if (!(berat >= 1 && berat <= 300)) msg = 'Berat harus 1–300 kg.';
+      if (!(berat >= 1 && berat <= 300)) msg = 'Berat harus 1-300 kg.';
       if (!(tinggi >= 50 && tinggi <= 250)) {
         if (msg.isNotEmpty) msg += ' ';
-        msg += 'Tinggi harus 50–250 cm.';
+        msg += 'Tinggi harus 50-250 cm.';
       }
       _showSnack(msg);
       return;
@@ -316,26 +357,222 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
     );
   }
 
-  Widget _bmiBar(double value) {
-    final clamped = value.clamp(0, 40);
-    final progress = clamped / 40.0;
-    final barColor = (kategori == '-') ? kGreen : warnaKategori(kategori);
+  // --- NEW: Custom BMI Indicator with markers (scale 12-40, target 22)
+  Widget _bmiIndicatorWithTarget(double? currentBmi) {
+    const double minScale = 12.0;
+    const double maxScale = 40.0;
+    const double targetBmi = 22.0;
+    const double normalMin = 18.5;
+    const double normalMax = 24.9;
+    const double overweightMax = 30.0;
+
+    final double displayBmi = (currentBmi ?? 0).clamp(minScale, maxScale);
+    final Color currentColor = (kategori == '-') ? kText : warnaKategori(kategori);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Indikator (0–40)', style: TextStyle(color: kText, fontSize: 12)),
+        const Text('Indikator BMI (skala 12-40)', style: TextStyle(color: kText, fontSize: 12)),
         const SizedBox(height: 8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: LinearProgressIndicator(
-            value: progress,
-            minHeight: 10,
-            backgroundColor: const Color(0xFF0E1620),
-            valueColor: AlwaysStoppedAnimation<Color>(barColor),
-          ),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final double barWidth = constraints.maxWidth;
+            final double range = maxScale - minScale;
+
+            double positionFor(double value) {
+              final clamped = value.clamp(minScale, maxScale);
+              return ((clamped - minScale) / range) * barWidth;
+            }
+
+            final double normalStartPos = positionFor(normalMin);
+            final double normalEndPos = positionFor(normalMax);
+            final double currentPos = positionFor(displayBmi);
+            final double targetPos = positionFor(targetBmi);
+
+            return SizedBox(
+              height: 32,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Background bar
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0E1620),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  // Normal range highlight
+                  Positioned(
+                    left: normalStartPos,
+                    top: 0,
+                    bottom: 0,
+                    width: normalEndPos - normalStartPos,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: kGreen.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                  // Target marker (BMI 22)
+                  Positioned(
+                    left: targetPos - 1,
+                    top: 2,
+                    bottom: 2,
+                    child: Container(
+                      width: 2,
+                      decoration: BoxDecoration(
+                        color: kBlue,
+                        borderRadius: BorderRadius.circular(1),
+                      ),
+                    ),
+                  ),
+                  // Current BMI marker
+                  if (currentBmi != null)
+                    Positioned(
+                      left: currentPos - 1.5,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: 3,
+                        decoration: BoxDecoration(
+                          color: currentColor,
+                          borderRadius: BorderRadius.circular(1.5),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         ),
         const SizedBox(height: 6),
-        const Text('Semakin tinggi BMI, indikator makin penuh.', style: TextStyle(color: kText, fontSize: 12)),
+        // WHO boundary labels
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text('18.5', style: TextStyle(color: kText, fontSize: 10)),
+            Text('25.0', style: TextStyle(color: kText, fontSize: 10)),
+            Text('30.0', style: TextStyle(color: kText, fontSize: 10)),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text('Kurus', style: TextStyle(color: kText, fontSize: 9)),
+            Text('Normal', style: TextStyle(color: kText, fontSize: 9)),
+            Text('Overweight', style: TextStyle(color: kText, fontSize: 9)),
+            Text('Obesitas', style: TextStyle(color: kText, fontSize: 9)),
+          ],
+        ),
+        const SizedBox(height: 8),
+        // Distance to target
+        if (currentBmi != null)
+          Builder(builder: (context) {
+            final diff = currentBmi - targetBmi;
+            final diffText = diff.abs().toStringAsFixed(1);
+            final String distanceLabel;
+            if (diff.abs() < 0.1) {
+              distanceLabel = 'Kamu sudah di target BMI 22';
+            } else if (diff > 0) {
+              distanceLabel = 'Jarak ke target BMI 22: +$diffText (di atas)';
+            } else {
+              distanceLabel = 'Jarak ke target BMI 22: -$diffText (di bawah)';
+            }
+            return Text(
+              distanceLabel,
+              style: TextStyle(color: currentColor, fontSize: 12, fontWeight: FontWeight.w500),
+            );
+          }),
+      ],
+    );
+  }
+
+  // --- DEPRECATED: Old _bmiBar kept for reference but replaced by _bmiIndicatorWithTarget
+  Widget _bmiBar(double value) {
+    return _bmiIndicatorWithTarget(value == 0 ? null : value);
+  }
+
+  // --- NEW: Recommendation box with highlight
+  Widget _recommendationBox(String recommendation, Color categoryColor) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: categoryColor.withOpacity(0.10),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: categoryColor.withOpacity(0.6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'REKOMENDASI UTAMA',
+            style: TextStyle(
+              color: categoryColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            recommendation,
+            style: const TextStyle(
+              color: kText,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- NEW: Bullet list for tips
+  Widget _bulletList(List<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: items.map((item) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('  ', style: TextStyle(color: kText, fontSize: 13)),
+              const Text('• ', style: TextStyle(color: kText, fontSize: 13)),
+              Expanded(
+                child: Text(
+                  item,
+                  style: const TextStyle(color: kText, fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  // --- NEW: Weight range narrative
+  Widget _weightRangeNarrative(double tinggiCm) {
+    final minNormal = beratUntukTargetBMI(18.5, tinggiCm);
+    final maxNormal = beratUntukTargetBMI(24.9, tinggiCm);
+    final target22 = beratUntukTargetBMI(22.0, tinggiCm);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Rentang berat Normal (WHO): $minNormal - $maxNormal kg',
+          style: const TextStyle(color: kText, fontSize: 13),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          'Target (BMI 22, opsional): $target22 kg',
+          style: const TextStyle(color: kText, fontSize: 13),
+        ),
       ],
     );
   }
@@ -344,6 +581,8 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
   Widget build(BuildContext context) {
     final bmiText = (bmi == null) ? '--' : bmi!.toStringAsFixed(1);
     final badgeColor = (kategori == '-') ? kBorder : warnaKategori(kategori);
+    final bmiColor = (kategori == '-') ? kText : warnaKategori(kategori);
+    final subLabel = (bmi != null && kategori == 'Normal') ? subLabelNormal(bmi!) : '';
 
     return Scaffold(
       appBar: AppBar(
@@ -353,7 +592,7 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
           children: const [
             Text('MOVV BMI', style: TextStyle(color: kText, fontWeight: FontWeight.w800)),
             SizedBox(height: 2),
-            Text('Measure • Improve • Move', style: TextStyle(color: kText, fontSize: 12, fontWeight: FontWeight.w400)),
+            Text('Measure - Improve - Move', style: TextStyle(color: kText, fontSize: 12, fontWeight: FontWeight.w400)),
           ],
         ),
         actions: [
@@ -368,21 +607,32 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('📊 Body Mass Index (BMI):', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('Body Mass Index (BMI):', style: TextStyle(fontWeight: FontWeight.bold)),
                         SizedBox(height: 8),
                         Text('BMI adalah indikator massa tubuh berdasarkan perbandingan berat dan tinggi badan.'),
                         SizedBox(height: 12),
-                        Text('📌 Standar Kategori:', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('Standar Kategori:', style: TextStyle(fontWeight: FontWeight.bold)),
                         SizedBox(height: 8),
-                        Text('Kategori BMI mengacu pada standar WHO (World Health Organization).'),
+                        Text('Kategori mengacu pada klasifikasi BMI dewasa WHO (World Health Organization):'),
+                        SizedBox(height: 4),
+                        Text('  < 18.5: Kurus'),
+                        Text('  18.5 - 24.9: Normal'),
+                        Text('  25.0 - 29.9: Overweight'),
+                        Text('  >= 30.0: Obesitas'),
                         SizedBox(height: 12),
-                        Text('⚠️ Keterbatasan BMI:', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('Keterbatasan BMI:', style: TextStyle(fontWeight: FontWeight.bold)),
                         SizedBox(height: 8),
-                        Text('• BMI tidak membedakan massa otot dan lemak.'),
-                        Text('• Tidak memperhitungkan distribusi lemak tubuh.'),
-                        Text('• Tidak cocok untuk atlet, ibu hamil, atau lansia.'),
+                        Text('BMI tidak membedakan massa otot dan lemak.'),
+                        Text('Tidak memperhitungkan distribusi lemak tubuh.'),
+                        Text('Tidak cocok untuk atlet, ibu hamil, atau lansia.'),
                         SizedBox(height: 12),
-                        Text('💡 BMI adalah alat skrining awal, bukan diagnosis medis. Konsultasi tenaga kesehatan untuk evaluasi lengkap.'),
+                        Text('Catatan Penting:', style: TextStyle(fontWeight: FontWeight.bold)),
+                        SizedBox(height: 8),
+                        Text('BMI adalah alat skrining awal, BUKAN diagnosis medis. Konsultasi tenaga kesehatan untuk evaluasi lengkap.'),
+                        SizedBox(height: 12),
+                        Text('Referensi:', style: TextStyle(fontWeight: FontWeight.bold)),
+                        SizedBox(height: 4),
+                        Text('WHO - Body mass index classification for adults', style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -397,13 +647,13 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
             onPressed: () {
               final tinggiVal = double.tryParse(tinggiCtrl.text.trim().replaceAll(',', '.'));
               if (tinggiVal == null || tinggiVal < 50 || tinggiVal > 250) {
-                _showSnack('Masukkan tinggi badan yang valid (50–250 cm) terlebih dahulu.');
+                _showSnack('Masukkan tinggi badan yang valid (50-250 cm) terlebih dahulu.');
                 return;
               }
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                  title: const Text('Kalkulator Berat Ideal (Goal-Based)'),
+                  title: const Text('Kalkulator Berat Ideal'),
                   content: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,12 +663,12 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                         const SizedBox(height: 12),
                         const Text('Berat untuk target BMI:'),
                         const SizedBox(height: 8),
-                        Text('• BMI 18.5 (Batas Kurus): ${beratUntukTargetBMI(18.5, tinggiVal)} kg'),
-                        Text('• BMI 22 (Normal Tengah): ${beratUntukTargetBMI(22, tinggiVal)} kg'),
-                        Text('• BMI 24.9 (Batas Normal): ${beratUntukTargetBMI(24.9, tinggiVal)} kg'),
-                        Text('• BMI 30 (Batas Obesitas): ${beratUntukTargetBMI(30, tinggiVal)} kg'),
+                        Text('BMI 18.5 (Batas Kurus): ${beratUntukTargetBMI(18.5, tinggiVal)} kg'),
+                        Text('BMI 22 (Target rekomendasi): ${beratUntukTargetBMI(22, tinggiVal)} kg'),
+                        Text('BMI 24.9 (Batas Normal): ${beratUntukTargetBMI(24.9, tinggiVal)} kg'),
+                        Text('BMI 30 (Batas Obesitas): ${beratUntukTargetBMI(30, tinggiVal)} kg'),
                         const SizedBox(height: 12),
-                        const Text('💡 Gunakan target BMI 22 untuk tujuan sehat optimal.', style: TextStyle(fontSize: 12)),
+                        const Text('Target BMI 22 adalah rekomendasi umum untuk kondisi sehat optimal.', style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -562,8 +812,10 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                     children: [
                       const Text('Hasil', style: TextStyle(color: kText, fontSize: 16, fontWeight: FontWeight.w700)),
                       const SizedBox(height: 10),
-                      Text(bmiText, style: const TextStyle(color: kText, fontSize: 44, fontWeight: FontWeight.w900)),
+                      // BMI number with category color
+                      Text(bmiText, style: TextStyle(color: bmiColor, fontSize: 48, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 8),
+                      // Category badge
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                         decoration: BoxDecoration(
@@ -574,7 +826,14 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Kategori: $kategori', style: TextStyle(color: badgeColor, fontWeight: FontWeight.w800)),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Kategori: $kategori', style: TextStyle(color: badgeColor, fontWeight: FontWeight.w800)),
+                                if (subLabel.isNotEmpty)
+                                  Text('($subLabel)', style: TextStyle(color: badgeColor.withOpacity(0.8), fontSize: 11)),
+                              ],
+                            ),
                             const SizedBox(width: 8),
                             if (bmi != null) IconButton(
                               onPressed: _copyResult,
@@ -585,28 +844,29 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
                       if (bmi != null) ...[
+                        // Weight range narrative
                         Builder(builder: (context) {
                           final tinggiVal = double.tryParse(tinggiCtrl.text.trim().replaceAll(',', '.'));
-                          if (tinggiVal != null) {
-                            final ideal = beratIdealAvg(tinggiVal);
-                            return Text('Untuk masuk kategori Normal, berat ideal kamu sekitar ${ideal.toStringAsFixed(1)} kg', style: const TextStyle(color: kText, fontSize: 13));
+                          if (tinggiVal != null && tinggiVal >= 50 && tinggiVal <= 250) {
+                            return _weightRangeNarrative(tinggiVal);
                           }
-                          return const Text('Masukkan tinggi untuk melihat berat ideal.', style: TextStyle(color: kText, fontSize: 13));
+                          return const Text('Masukkan tinggi untuk melihat rentang berat ideal.', style: TextStyle(color: kText, fontSize: 13));
                         }),
                         const SizedBox(height: 8),
                         Text(statusForKategori(kategori), style: const TextStyle(color: kText, fontSize: 13)),
                         const SizedBox(height: 12),
-                        _bmiBar(bmi ?? 0),
+                        // Custom BMI Indicator
+                        _bmiIndicatorWithTarget(bmi),
                       ] else ...[
                         const SizedBox(height: 14),
-                        _bmiBar(bmi ?? 0),
+                        _bmiIndicatorWithTarget(null),
                         const SizedBox(height: 12),
-                        const Text('MOVV Insight: BMI hanyalah awal, gaya hidup menentukan hasil', style: TextStyle(color: kText, fontSize: 12)),
+                        const Text('MOVV Insight: BMI hanyalah awal, gaya hidup menentukan hasil.', style: TextStyle(color: kText, fontSize: 12)),
                       ],
 
-                      // --- NEW: Explainability & advanced features section
+                      // --- Explainability & advanced features section
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -622,7 +882,7 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                               _showExplanation ? Icons.expand_less : Icons.expand_more,
                               color: kText,
                             ),
-                          ),
+                          },
                         ],
                       ),
                       if (_showExplanation) ...[
@@ -632,12 +892,20 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                           style: const TextStyle(color: kText, fontSize: 13),
                           textAlign: TextAlign.justify,
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          _cachedRecommendation ?? rekomendasiAksi(kategori),
-                          style: const TextStyle(color: kText, fontSize: 13, fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.justify,
-                        ),
+                        const SizedBox(height: 12),
+                        // Highlighted recommendation box
+                        if (kategori != '-')
+                          _recommendationBox(
+                            _cachedRecommendation ?? rekomendasiAksi(kategori),
+                            warnaKategori(kategori),
+                          ),
+                        const SizedBox(height: 12),
+                        // Tips section
+                        if (kategori != '-') ...[
+                          const Text('TIPS:', style: TextStyle(color: kText, fontSize: 12, fontWeight: FontWeight.w700)),
+                          const SizedBox(height: 6),
+                          _bulletList(tipsForKategori(kategori)),
+                        ],
                         const SizedBox(height: 12),
                         Divider(color: kBorder),
                         const SizedBox(height: 12),
@@ -681,9 +949,9 @@ class _MovvBmiHomeState extends State<MovvBmiHome> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
-                    Text('📌 Standar: WHO (World Health Organization)', style: TextStyle(color: kText, fontSize: 12, fontWeight: FontWeight.w600)),
+                    Text('Standar: WHO (World Health Organization) - BMI classification for adults', style: TextStyle(color: kText, fontSize: 12, fontWeight: FontWeight.w600)),
                     SizedBox(height: 6),
-                    Text('⚠️ Catatan: BMI tidak membedakan massa otot dan lemak. Gunakan sebagai skrining awal, bukan diagnosis medis.', style: TextStyle(color: kText, fontSize: 11)),
+                    Text('Catatan: BMI adalah alat skrining, bukan diagnosis medis. BMI tidak membedakan massa otot dan lemak.', style: TextStyle(color: kText, fontSize: 11)),
                   ],
                 ),
               ),
