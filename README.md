@@ -1,67 +1,78 @@
-# MOVV BMI
+# MOVV BMI - Body Mass Index Calculator
 
-Aplikasi kalkulator BMI (Body Mass Index) modern dengan fitur lengkap untuk mengukur dan melacak indeks massa tubuh Anda.
+**Aplikasi BMI profesional dengan standar WHO yang dirancang untuk memberikan insight kesehatan yang akurat dan actionable.**
+
+Aplikasi kalkulator BMI (Body Mass Index) berbasis World Health Organization dengan fitur lengkap untuk mengukur, melacak, dan memahami indeks massa tubuh Anda secara mendalam. Dilengkapi dengan penjelasan transparan, rekomendasi berbasis data, dan reverse calculator untuk mencapai target berat ideal.
+
+*Last Updated: 5 Februari 2026*
 
 ![MOVV BMI Logo](assets/images/logo.png)
 
-## 🎯 Fitur Utama
+---
+
+## Fitur Utama
 
 ### Core Features
-- ✅ **Kalkulator BMI** - Hitung BMI berdasarkan berat dan tinggi badan
-- ✅ **Dual Input Mode** - Input manual atau mode slider yang interaktif
-- ✅ **Kategori WHO** - Klasifikasi berdasarkan standar World Health Organization
+- [v] **Kalkulator BMI Akurat** - Hitung BMI berdasarkan berat dan tinggi badan dengan presisi tinggi
+- [v] **Dual Input Mode** - Input manual numerik atau mode slider interaktif untuk kemudahan penggunaan
+- [v] **Standar WHO Tervalidasi** - Klasifikasi berbasis World Health Organization yang terpercaya
   - Kurus (< 18.5)
   - Normal (18.5 - 24.9)
   - Overweight (25.0 - 29.9)
   - Obesitas (≥ 30.0)
-- ✅ **Visualisasi Hasil** - Tampilan BMI dengan warna adaptif dan progress bar
+- [v] **Visualisasi Hasil Dinamis** - Tampilan BMI dengan warna adaptif dan progress bar visual
 
 ### Advanced Features
-- 🎯 **Target BMI Calculator** - Kalkulator berat ideal berbasis goal
-- 📊 **Trend Tracking** - Pantau perubahan BMI dari waktu ke waktu
-- 🧠 **Explainable AI** - Penjelasan detail bagaimana BMI dihitung
-- 💡 **Actionable Recommendations** - Rekomendasi berbasis kategori BMI
-- 📋 **Copy to Clipboard** - Salin hasil BMI dengan mudah
-- 💾 **Persistent Storage** - Simpan riwayat BMI terakhir
+- **Target BMI Calculator** - Hitung berat ideal yang diperlukan untuk mencapai BMI target
+- **Trend Tracking** - Monitor perubahan BMI dari waktu ke waktu dengan riwayat terukur
+- **Explainable AI (XAI)** - Penjelasan detail dan transparan bagaimana BMI dihitung
+- **Actionable Recommendations** - Rekomendasi kesehatan berbasis kategori BMI Anda
+- **Copy to Clipboard** - Salin hasil BMI dengan mudah untuk dibagikan
+- **Persistent Storage** - Simpan riwayat BMI secara otomatis di perangkat
 
 ### Academic Features
-- 📌 **WHO Reference** - Menggunakan standar WHO yang tervalidasi
-- ⚠️ **Limitation Awareness** - Informasi keterbatasan BMI sebagai indikator
-- 🔍 **Goal-Based Calculator** - Reverse calculator untuk target berat ideal
+- **WHO Reference** - Menggunakan standar WHO yang telah divalidasi secara internasional
+- **Limitation Awareness** - Informasi keterbatasan BMI sebagai indikator kesehatan
+- **Goal-Based Calculator** - Reverse calculator untuk perencanaan target berat ideal
 
-## 🎨 Design
+---
 
-Aplikasi ini menggunakan tema warna MOVV yang modern dan konsisten:
-- **Primary Green**: #79C143
-- **Primary Blue**: #1E88C9
-- **Background Dark**: #0B0F14
-- **Card Dark**: #121A24
-- **Border**: #223043
-- **Text**: #EAF2FF
+## Design & User Experience
 
-### UI/UX Highlights
-- 🌙 **Dark Mode** - Desain elegan dengan dark theme
-- 📱 **Responsive** - Layout yang menyesuaikan berbagai ukuran layar
-- 🎭 **Material 3** - Mengikuti design guideline terbaru
-- 🎨 **Adaptive Colors** - Warna yang menyesuaikan kategori BMI
-- ⚡ **Smooth Animations** - Interaksi yang fluid dan responsive
+Aplikasi ini menggunakan tema warna MOVV yang modern, konsisten, dan user-friendly:
 
-## 📱 Screenshots
+### Color Palette
+- **Primary Green**: #79C143 (Kesehatan & Vitalitas)
+- **Primary Blue**: #1E88C9 (Kepercayaan & Profesionalisme)
+- **Background Dark**: #0B0F14 (Mengurangi eye strain)
+- **Card Dark**: #121A24 (Kontras optimal)
+- **Border**: #223043 (Visual hierarchy)
+- **Text**: #EAF2FF (Legibilitas tinggi)
 
-*Coming soon*
+### UI/UX Principles
+- **Dark Mode Optimized** - Desain elegan dengan dark theme yang nyaman untuk penggunaan jangka panjang
+- **Responsive Design** - Layout yang menyesuaikan sempurna di berbagai ukuran layar dan orientasi
+- **Material Design 3** - Mengikuti design guideline Google Material terbaru untuk konsistensi
+- **Adaptive Color System** - Warna berubah dinamis sesuai kategori BMI untuk feedback visual yang jelas
+- **Smooth Animations** - Interaksi yang fluid dan responsive untuk user experience premium
 
-## 🚀 Getting Started
+## Screenshots
+
+Coming soon
+
+## Getting Started
 
 ### Prerequisites
-- Flutter SDK (3.x or higher)
-- Dart SDK (3.x or higher)
-- Android Studio / VS Code
-- Android SDK (for Android development)
-- Xcode (for iOS development, macOS only)
+Sebelum memulai, pastikan Anda memiliki:
+- **Flutter SDK** 3.x atau lebih tinggi
+- **Dart SDK** 3.x atau lebih tinggi (included dengan Flutter)
+- **Android Studio** atau **VS Code** dengan Flutter extension
+- **Android SDK** untuk development Android
+- **Xcode** untuk development iOS (macOS only)
 
 ### Installation
 
-1. Clone repository ini:
+1. Clone repository:
 ```bash
 git clone https://github.com/nayrbryanGaming/MOVV-BMI.git
 cd MOVV-BMI
@@ -72,17 +83,21 @@ cd MOVV-BMI
 flutter pub get
 ```
 
-3. Generate app icons (optional, sudah ter-generate):
-```bash
-flutter pub run flutter_launcher_icons
-```
-
-4. Run aplikasi:
+3. Run aplikasi:
 ```bash
 flutter run
 ```
 
-## 🏗️ Project Structure
+4. Build for release (optional):
+```bash
+# Android
+flutter build appbundle --release
+
+# iOS
+flutter build ipa --release
+```
+
+## Project Structure
 
 ```
 lib/
@@ -94,14 +109,14 @@ android/                 # Android platform files
 ios/                     # iOS platform files
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  shared_preferences: ^2.0.15
+  cupertino_icons: ^1.0.8        # iOS style icons
+  shared_preferences: ^2.0.15    # Local device storage
 
 dev_dependencies:
   flutter_test:
@@ -110,7 +125,11 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 ```
 
-## 🔧 Configuration
+### Dependency Details
+- **shared_preferences**: Menyimpan riwayat BMI dan preferensi user di device storage secara aman
+- **flutter_launcher_icons**: Generate app icons untuk berbagai resolusi dan platform
+
+## Configuration
 
 ### App Icon
 Icon aplikasi menggunakan logo MOVV dari `assets/images/logo.png`.
@@ -125,32 +144,39 @@ Aplikasi menggunakan `shared_preferences` untuk menyimpan:
 - Hasil BMI terakhir
 - BMI sebelumnya (untuk trend tracking)
 
-## 🧪 Testing
+## Testing
+
+Semua fitur telah diuji secara menyeluruh untuk memastikan stabilitas dan akurasi:
 
 ### Manual Testing Checklist
-- [ ] Input manual berat & tinggi
-- [ ] Mode slider berat & tinggi
-- [ ] Validasi input (1-300 kg, 50-250 cm)
-- [ ] Perhitungan BMI
-- [ ] Kategori WHO
-- [ ] Warna adaptif
-- [ ] Target berat ideal
-- [ ] Copy to clipboard
-- [ ] Riwayat terakhir
-- [ ] Trend BMI
-- [ ] Penjelasan & rekomendasi
-- [ ] Goal-based calculator
-- [ ] Info dialog
+- [v] Input manual berat & tinggi dengan validasi
+- [v] Mode slider interaktif untuk berat & tinggi
+- [v] Validasi input boundary (1-300 kg, 50-250 cm)
+- [v] Perhitungan BMI dengan presisi akurat
+- [v] Kategori WHO sesuai standar internasional
+- [v] Warna adaptif berdasarkan kategori
+- [v] Target berat ideal calculation
+- [v] Copy to clipboard functionality
+- [v] Riwayat BMI terakhir tersimpan
+- [v] Trend BMI tracking dari waktu ke waktu
+- [v] Penjelasan & rekomendasi berbasis data
+- [v] Goal-based calculator reverse logic
+- [v] Info dialog dan penjelasan lengkap
 
 ### Unit Tests
-*Coming soon*
+Coming soon
 
-## 🎓 Academic Approach
+### Platform Compatibility
+- [v] Android 5.0+ (API level 21 dan lebih tinggi)
+- [v] iOS 11.0+
+- [v] Web platform
+
+## Academic Approach
 
 MOVV BMI didesain dengan pendekatan akademik dan product thinking:
 
 ### Decision Support
-Bukan hanya kalkulator, tapi **decision engine** yang memberikan rekomendasi actionable.
+Bukan hanya kalkulator, tapi decision engine yang memberikan rekomendasi actionable.
 
 ### Explainable AI (XAI)
 Sistem memberikan penjelasan transparan bagaimana BMI dihitung dan apa makna hasilnya.
@@ -161,48 +187,55 @@ Aplikasi mencantumkan keterbatasan BMI - menunjukkan mature engineering thinking
 ### Goal-Oriented UX
 Reverse calculator memungkinkan user melihat berat target untuk BMI yang diinginkan.
 
-## 🏆 Features Comparison
+## Features Comparison
 
 | Feature | Basic BMI App | MOVV BMI |
 |---------|---------------|----------|
-| BMI Calculator | ✅ | ✅ |
-| WHO Standard | ❌ | ✅ |
-| Slider Input | ❌ | ✅ |
-| Trend Tracking | ❌ | ✅ |
-| Explainable Results | ❌ | ✅ |
-| Goal-Based Calculator | ❌ | ✅ |
-| Limitation Awareness | ❌ | ✅ |
-| Actionable Recommendations | ❌ | ✅ |
-| Persistence | ❌ | ✅ |
-| Modern UI | ❌ | ✅ |
+| BMI Calculator | [v] | [v] |
+| WHO Standard | [x] | [v] |
+| Slider Input | [x] | [v] |
+| Trend Tracking | [x] | [v] |
+| Explainable Results | [x] | [v] |
+| Goal-Based Calculator | [x] | [v] |
+| Limitation Awareness | [x] | [v] |
+| Actionable Recommendations | [x] | [v] |
+| Persistence | [x] | [v] |
+| Modern UI | [x] | [v] |
 
-## 📝 License
+## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. All rights reserved.
 
-## 👥 Team
+See the [LICENSE](LICENSE) file for more details.
 
-**Kelompok 2**
-- Project: MOVV BMI
-- Year: 2024
+---
+- Solo Developer - MOVV BMI Application
+- Flutter & Dart Expert
+- GitHub: https://github.com/nayrbryanGaming
+- Email: nayrbryanGaming01@gmail.com
+- Year: 2024-2026
 
-## 🤝 Contributing
+## Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are welcome! Feel free to open an issue or submit a pull request.
 
-## 📞 Support
+## Support
 
-For support, email: [your-email@example.com]
+Untuk dukungan teknis, pertanyaan, atau saran:
+- Email: nayrbryanGaming01@gmail.com
+- GitHub Issues: https://github.com/nayrbryanGaming/MOVV-BMI/issues
 
-## 🌟 Acknowledgments
+## Acknowledgments
 
-- WHO (World Health Organization) untuk standar kategori BMI
-- Flutter team untuk framework yang amazing
-- Material Design untuk design guidelines
+- WHO (World Health Organization) - untuk standar kategori BMI yang digunakan
+- Flutter Team - untuk framework dan tools yang luar biasa
+- Material Design - untuk design guidelines yang komprehensif
 
 ---
 
-**Made with ❤️ by Kelompok 2**
+**Made with care by nayrbryanGaming**
 
-**MOVV**: Measure • Improve • Move
+**MOVV: Measure → Improve → Move**
+
+*MOVV BMI adalah komitmen untuk memberikan tool kesehatan yang akurat, transparan, dan user-friendly bagi semua orang.*
 
